@@ -150,7 +150,7 @@ const updateBookByIdHandler = (request, h) => {
     const index = books.findIndex((book) => book.id === id);
 
     if (index !== -1) {
-        const insertedAt = books[index].insertedAt;
+        const { insertedAt } = books[index];
         books[index] = {
             ...books[index],
             name,
