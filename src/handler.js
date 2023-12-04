@@ -83,39 +83,117 @@ const getAllBooks = (request, h) => {
     }));
 
     const requestedName = request.query.name;
+    const requestReading = request.query.reading;
+    const requestFinished = request.query.finished;
 
-    if (requestedName !== undefined) {
-        const requestedNameLowerCase = requestedName.toLowerCase();
-        const bookTitlesByRequest = books
-            .filter((book) =>
-                book.name.toLowerCase().includes(requestedNameLowerCase)
-            )
-            .map(({ id, name, publisher }) => ({
-                id,
-                name,
-                publisher,
-            }));
+    switch (true) {
+        case (requestedName !== undefined): {
+            const requestedNameLowerCase = requestedName.toLowerCase();
+            const bookTitlesByRequest = books
+                .filter((book) =>
+                    book.name.toLowerCase().includes(requestedNameLowerCase)
+                )
+                .map(({ id, name, publisher }) => ({
+                    id,
+                    name,
+                    publisher,
+                }));
 
-        const response = h.response({
-            status: 'success',
-            data: {
-                books: bookTitlesByRequest,
-            },
-        });
-        response.code(200);
-        return response;
+            const response = h.response({
+                status: 'success',
+                data: {
+                    books: bookTitlesByRequest,
+                },
+            });
+            response.code(200);
+            return response;
+        }
+        case (requestReading === '0'): {
+            const bookTitlesByRequest = books
+                .filter((book) => book.reading === false)
+                .map(({ id, name, publisher }) => ({
+                    id,
+                    name,
+                    publisher,
+                }));
+
+            const response = h.response({
+                status: 'success',
+                data: {
+                    books: bookTitlesByRequest,
+                },
+            });
+            response.code(200);
+            return response;
+        }
+        case (requestReading === '1'): {
+            const bookTitlesByRequest = books
+                .filter((book) => book.reading === true)
+                .map(({ id, name, publisher }) => ({
+                    id,
+                    name,
+                    publisher,
+                }));
+
+            const response = h.response({
+                status: 'success',
+                data: {
+                    books: bookTitlesByRequest,
+                },
+            });
+            response.code(200);
+            return response;
+        }
+        case (requestFinished === '0'): {
+            const bookTitlesByRequest = books
+                .filter((book) => book.finished === false)
+                .map(({ id, name, publisher }) => ({
+                    id,
+                    name,
+                    publisher,
+                }));
+
+            const response = h.response({
+                status: 'success',
+                data: {
+                    books: bookTitlesByRequest,
+                },
+            });
+            response.code(200);
+            return response;
+        }
+        case (requestFinished === '1'): {
+            const bookTitlesByRequest = books
+                .filter((book) => book.finished === true)
+                .map(({ id, name, publisher }) => ({
+                    id,
+                    name,
+                    publisher,
+                }));
+
+            const response = h.response({
+                status: 'success',
+                data: {
+                    books: bookTitlesByRequest,
+                },
+            });
+            response.code(200);
+            return response;
+        }
+        default: {
+            const response = h.response({
+                status: 'success',
+                data: {
+                    books: booksTitles,
+                },
+            });
+
+            response.code(200);
+            return response;
+        }
     }
-
-    const response = h.response({
-        status: 'success',
-        data: {
-            books: booksTitles,
-        },
-    });
-
-    response.code(200);
-    return response;
 };
+
 
 const getBookByIdHandler = (request, h) => {
     const { id } = request.params;
